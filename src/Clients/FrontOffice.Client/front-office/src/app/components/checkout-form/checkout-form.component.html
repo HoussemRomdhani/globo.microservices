@@ -1,0 +1,172 @@
+<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label for="firstName">First name</label>
+      <input type="text" class="form-control" id="firstName" formControlName="firstName"
+           [ngClass]="{ 'is-invalid': submitted && controlsForm.firstName.errors }">
+      <div *ngIf="submitted && controlsForm.firstName.errors" class="invalid-feedback">
+        <div *ngIf="controlsForm.firstName.errors.required">First Name is required</div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="lastName">Last name</label>
+      <input type="text" class="form-control" id="lastName" formControlName="lastName"
+             [ngClass]="{ 'is-invalid': submitted && controlsForm.lastName.errors }">
+       <div *ngIf="submitted && controlsForm.lastName.errors" class="invalid-feedback">
+              <div *ngIf="controlsForm.lastName.errors.required">Last Name is required</div>
+       </div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="email">Email</label>
+    <input type="email" class="form-control" id="email" formControlName="email"
+            [ngClass]="{ 'is-invalid': submitted && controlsForm.email.errors }">
+
+      <div *ngIf="submitted && controlsForm.email.errors" class="invalid-feedback">
+         <div *ngIf="controlsForm.email.errors.required">Email is required</div>
+         <div *ngIf="controlsForm.email.errors.email">Please enter a valid email address for shipping updates</div>
+       </div>
+  </div>
+  <ng-container [formGroup]="checkoutForm.get('address')">
+    <div class="mb-3">
+      <label for="street">Street</label>
+      <input type="text" class="form-control" id="street" formControlName="street"
+        [ngClass]="{ 'is-invalid': submitted && controlsAddress.street.errors }">
+      <div *ngIf="submitted && controlsAddress.street.errors" class="invalid-feedback">
+        <div *ngIf="controlsAddress.street.errors.required">Please enter your shipping street.</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-5 mb-3" *ngIf="countries">
+        <label for="country">Country</label>
+        <select class="custom-select d-block w-100"
+                id="country" formControlName="country"
+                [ngClass]="{ 'is-invalid': submitted && controlsAddress.country.errors }">
+            <option *ngFor="let item of countries" [value]="item.country">
+            {{ item.country }}
+          </option>
+        </select>
+        <div *ngIf="submitted && controlsAddress.country.errors" class="invalid-feedback">
+          <div *ngIf="controlsAddress.country.errors.required">Please enter your shipping country.</div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3" *ngIf="cities">
+        <label for="state">City</label>
+        <select class="custom-select d-block w-100" id="city" formControlName="city"
+         [ngClass]="{ 'is-invalid': submitted && controlsAddress.city.errors }" >
+         <option *ngFor="let item of cities" [value]="item">
+            {{ item }}
+          </option>
+        </select>
+        <div *ngIf="submitted && controlsAddress.city.errors" class="invalid-feedback">
+          <div *ngIf="controlsAddress.city.errors.required">Please enter your shipping country.</div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="zip">Zip</label>
+        <input type="text" class="form-control" id="zip" formControlName="zip"
+          [ngClass]="{ 'is-invalid': submitted && controlsAddress.zip.errors }">
+        <div *ngIf="submitted && controlsAddress.zip.errors" class="invalid-feedback">
+          <div *ngIf="controlsAddress.zip.errors.required">Please enter your shipping postal code.</div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <hr class="mb-4">
+
+  <h4 class="mb-3">Payment</h4>
+ <ng-container [formGroup]="checkoutForm.get('payment')">
+   <div class="row">
+    <div class="col-md-4 mb-3">
+      <input type="radio" value="credit" formControlName="paymentMethod" required>
+      <label for="credit">
+        <i class="fa fa-credit-card text-info"></i> Credit card
+      </label>
+    </div>
+
+    <div class="col-md-4 mb-3">
+      <input type="radio" value="debit" formControlName="paymentMethod" required>
+      <label for="debit">
+        <i class="fa fa-cc-mastercard text-info"></i> Mastercard
+      </label>
+    </div>
+
+    <div class="col-md-4 mb-3">
+      <input type="radio" value="paypal" formControlName="paymentMethod" required>
+      <label for="paypal">
+        <i class="fa fa-cc-paypal text-info"></i> PayPal
+      </label>
+    </div>
+
+    <!-- <div class="col-md-4 mb-3 custom-control custom-radio">
+      <input id="credit" name="credit" type="radio"
+          class="custom-control-input d-block w-100" formControlName="paymentMethod">
+      <label class="custom-control-label" for="credit">
+        <i class="fa fa-credit-card text-info"></i> Credit card
+      </label>
+    </div>
+    <div class="col-md-4 mb-3 custom-control custom-radio">
+      <input id="debit" name="debit" type="radio" class="custom-control-input d-block w-100"
+             formControlName="paymentMethod">
+      <label class="custom-control-label" for="debit">
+        <i class="fa fa-cc-mastercard text-info"></i> Mastercard
+      </label>
+    </div>
+    <div class=" col-md-4 mb-3 custom-control custom-radio">
+      <input id="paypal" name="paypal" type="radio" class="custom-control-input d-block w-100"
+             formControlName="paymentMethod">
+      <label class="custom-control-label" for="paypal">
+        <i class="fa fa-cc-paypal text-info"></i> PayPal
+      </label>
+    </div>
+    <div *ngIf="submitted && controlsPayment.paymentMethod.errors" class="invalid-feedback">
+      <div *ngIf="controlsPayment.paymentMethod.errors.required">payment method is required</div>
+    </div> -->
+    <div *ngIf="submitted && controlsPayment.paymentMethod.errors" class="invalid-feedback">
+      <div *ngIf="controlsPayment.paymentMethod.errors.required">payment method is required</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label for="cardName">Name on card</label>
+      <input type="text" class="form-control" id="cardName" formControlName="cardName"
+            [ngClass]="{ 'is-invalid': submitted && controlsPayment.cardName.errors }">
+         <div *ngIf="submitted && controlsPayment.cardName.errors" class="invalid-feedback">
+          <div *ngIf="controlsPayment.cardName.errors.required">Name on card is required</div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="cardNumber">Credit card number</label>
+      <input type="text" class="form-control"  id="cardNumber" formControlName="cardNumber"
+      [ngClass]="{ 'is-invalid': submitted && controlsPayment.cardNumber.errors }">
+      <div *ngIf="submitted && controlsPayment.cardNumber.errors" class="invalid-feedback">
+        <div *ngIf="controlsPayment.cardNumber.errors.required">Credit card number is required</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 mb-3">
+      <label for="expiration">Expiration</label>
+      <input type="text" class="form-control"  id="expiration" formControlName="expiration"
+      [ngClass]="{ 'is-invalid': submitted && controlsPayment.expiration.errors }">
+      <div *ngIf="submitted && controlsPayment.expiration.errors" class="invalid-feedback">
+        <div *ngIf="controlsPayment.expiration.errors.required">Expiration date required</div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="cvv">CVV</label>
+      <input type="text" class="form-control"  id="cvv" formControlName="cvv"
+      [ngClass]="{ 'is-invalid': submitted && controlsPayment.cvv.errors }">
+      <div *ngIf="submitted && controlsPayment.cvv.errors" class="invalid-feedback">
+        <div *ngIf="controlsPayment.cvv.errors.required">Security code required</div>
+      </div>
+    </div>
+  </div>
+ </ng-container>
+
+  <hr class="mb-4">
+  <button class="btn btn-success btn-lg btn-block" type="submit">Continue to checkout</button>
+</form>

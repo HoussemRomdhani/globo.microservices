@@ -1,0 +1,45 @@
+<div class="container" *ngIf="orders  as vm">
+  <div class="card" >
+           <div class="card-header bg-light text-dark">
+             <h3>My orders</h3>
+           </div>
+           <div class="card-body" >
+            <table class="table bordered">
+                <tr  *ngFor="let item of vm">
+                  <td>
+                    <span class="text-muted">
+                      Date :
+                      <span class="text-success" style="float:right;">
+                          {{item.createdAt | date: 'dd/MM/yyyy hh:mm'}}
+                      </span>
+                    </span>
+                    <ul class="list-group mb-3">
+                      <li class="list-group-item d-flex justify-content-between lh-condensed"
+                          *ngFor="let product of item.products">
+                        <div>
+
+                          <h6 class="my-0">
+                            <a [routerLink]="['/catalog', product.id]">{{product.productName}}</a>
+                          </h6>
+                          <hr>
+                          <span class="text-muted" style="float:right;">{{product.price | currency}} x
+                            <span class="badge badge-success badge-pill">{{product.quantity}}</span>
+                          </span>
+                        </div>
+                      </li>
+                    </ul>
+
+                    <span class="text-muted">
+                      Total Price :
+                      <span class="text-success" style="float:right;">
+                          {{item.totalPrice | currency}}
+                      </span>
+                    </span>
+                  </td>
+                </tr>
+            </table>
+           </div>
+       </div>
+</div>
+
+

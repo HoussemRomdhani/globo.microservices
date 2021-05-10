@@ -1,0 +1,21 @@
+  <div *ngIf="shoppingCart as vm">
+    <h4 class="d-flex justify-content-between align-items-center mb-3">
+      <span class="text-muted">Your cart</span>
+      <span *ngIf="vm.items && vm.items.length > 0" class="badge badge-success badge-pill">{{vm.items.length}}</span>
+    </h4>
+    <ul class="list-group mb-3" *ngIf="vm.items">
+      <li class="list-group-item d-flex justify-content-between lh-condensed"
+          *ngFor="let item of vm.items">
+        <div>
+          <h6 class="my-0">{{item.productName}}</h6>
+          <!-- <small class="text-muted">Brief description</small> -->
+        </div>
+        <span class="text-muted">{{item.price | currency}} x {{item.quantity}}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span>Total</span>
+        <strong>{{vm.totalPrice | currency}}</strong>
+      </li>
+    </ul>
+  </div>
+

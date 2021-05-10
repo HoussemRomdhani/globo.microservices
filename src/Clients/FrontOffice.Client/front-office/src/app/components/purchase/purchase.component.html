@@ -1,0 +1,13 @@
+<form class="input-group container" style="text-align: center;"
+     [formGroup]="purchaseForm"
+     (ngSubmit)="onSubmit()">
+  <select formControlName="count" class="form-control">
+    <option *ngFor="let count of items" [ngValue]="count">
+      {{ count.value }}
+    </option>
+  </select>
+  <span class="input-group-text font-weight-bold">{{product.price | currency}}</span>
+  <button class="btn btn-success" type="submit"><i class="fa fa-shopping-cart"></i></button>
+</form>
+
+

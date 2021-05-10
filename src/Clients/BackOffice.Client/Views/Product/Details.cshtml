@@ -1,0 +1,44 @@
+﻿@model BackOffice.Client.ViewModels.ProductDetailsDto
+
+<h1>Details</h1>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title"> @Model.Name</h5>
+            <h6 class="card-subtitle mb-2 text-muted">@Model.Id</h6>
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CategoryName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CategoryName)
+                </dd>
+
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Price)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Price)
+                </dd>
+            </dl>
+
+            <img src="@Model.Image" class="card-img-bottom" alt="...">
+         
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-10">
+                    <p class="card-text align-content-center">@Html.DisplayFor(model => model.Description)</p>
+                    
+                </dd>
+            </dl>
+
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "card-link" })
+            <a asp-action="Index" class="card-link">Back to List</a>
+        </div>
+    </div>
+</div>
