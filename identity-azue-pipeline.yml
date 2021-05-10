@@ -1,0 +1,62 @@
+name: 'Identity$(Rev:.r)'
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  artifactName: 'Identity'
+  projectName: 'Identity.csproj'
+  outputPath: '$(Build.ArtifactStagingDirectory)'
+  configuration: 'Release'
+
+jobs:
+
+- job : 'restore_build_and_publish'
+  displayName: 'restore build and publish'
+  continueOnError: 'false'
+
+  steps:
+  
+  - pwsh: '$configuration ="Release"; if("$(Build.SourceBranch)" -eq "refs/heads/develop"){$configuration = "Debug"};echo "##vso[task.setvariable variable=configuration]$configuration"'
+  
+  - task: DotNetCoreCLI@2
+    displayName: 'Dotnet Restore $(projectName)'
+    inputs:
+      command: 'restore'
+      projects: '**/$(projectName)'
+      arguments: '--configuration $(configuration)'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Dotnet Build $(projectName)'
+    inputs:
+      command: 'build'
+      projects: '**/$(projectName)'
+      arguments: '--configuration $(configuration) --no-restore'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Dotnet Publish $(projectName)'
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
+      projects: '**/$(projectName)'
+      arguments: '--configuration $(configuration) --output $(build.binariesdirectory) --no-build'
+
+  - task: CopyFiles@2
+    displayName: 'Copying zip file to $(outputPath)'
+    inputs:
+      SourceFolder: '$(build.binariesdirectory)'
+      Contents: '**/*.zip'
+      TargetFolder: '$(outputPath)'
+      CleanTargetFolder: true
+      OverWrite: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Build Artifact for $(projectName)'
+    inputs:
+      PathtoPublish: '$(outputPath)'
+      ArtifactName: '$(artifactName)'
+      publishLocation: 'Container'
